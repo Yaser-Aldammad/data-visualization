@@ -10,7 +10,7 @@ interface TreemapData {
   fill: string;
 }
 
-// Dynamically generate colors for unique references
+// Generate unique colors for categories
 const generateCategoryColors = (categories: string[]): Record<string, string> => {
   const baseColors = [
     "#FF6347", "#3CB371", "#4682B4", "#FFD700", "#FF8C00", "#DC143C",
@@ -40,9 +40,46 @@ const TreemapChart: React.FC = () => {
       fill: colors[ref],
     }));
 
-    setTreemapData(data);
+    // Sort data to ensure better rendering order
+    const sortedData = data.sort((a, b) => b.value - a.value);
+
+    setTreemapData(sortedData);
     setCategoryColors(colors);
+
+    console.log("Treemap Data: ", sortedData); // Debugging: Verify data includes all references
   }, []);
+
+  // Custom content for the treemap to ensure dynamic label adjustments
+  const CustomTreemapContent = (props: any) => {
+    const { x, y, width, height, name, fill } = props;
+
+    // Dynamically calculate font size based on section dimensions
+    const fontSize = Math.min(width, height) / 5; // Adjust the divisor to control scaling
+    const displayText = width > 30 && height > 20; // Only display labels for sufficiently large sections
+
+    return (
+      <g>
+        <rect
+          x={x}
+          y={y}
+          width={width}
+          height={height}
+          style={{ fill, stroke: "#fff" }}
+        />
+        {displayText && (
+          <text
+            x={x + width / 2}
+            y={y + height / 2}
+            textAnchor="middle"
+            fill="#fff"
+            fontSize={Math.max(fontSize, 10)} // Minimum font size of 10 for readability
+          >
+            {`${name} `}
+          </text>
+        )}
+      </g>
+    );
+  };
 
   return (
     <div className="flex flex-col items-center">
@@ -54,9 +91,7 @@ const TreemapChart: React.FC = () => {
           nameKey="name"
           stroke="#fff"
           fill="#8884d8"
-          label={({ name, value, depth }) =>
-            depth === 1 && value > 2 ? `${name} (${value})` : ""
-          } // Show labels only for meaningful sizes
+          content={<CustomTreemapContent />}
         >
           <Tooltip
             formatter={(value: number, name: string) => [
@@ -70,31 +105,31 @@ const TreemapChart: React.FC = () => {
 
       {/* Legend Table */}
       <div className="mt-6 text-center w-full">
-        <h3 className="text-lg font-semibold">Legend: References and Colors</h3>
+        <h3 className="text-lg font-semibold">Legend: References and Counts</h3>
         <table className="table-auto w-full mt-4 border-collapse border border-gray-300 text-sm">
           <thead>
             <tr>
               <th className="border px-4 py-2">Color</th>
               <th className="border px-4 py-2 text-left">Reference</th>
-              <th className="border px-4 py-2 text-left">Description</th>
+              <th className="border px-4 py-2 text-left">Count</th>
             </tr>
           </thead>
           <tbody>
-            {Object.entries(categoryColors).map(([key, color]) => (
-              <tr key={key}>
-                <td className="border px-4 py-2 text-center">
-                  <div
-                    className="w-4 h-4 rounded-full mx-auto"
-                    style={{ backgroundColor: color }}
-                  ></div>
-                </td>
-                <td className="border px-4 py-2">{key}</td>
-                <td className="border px-4 py-2">
-                  {/* Replace with actual descriptions if available */}
-                  Description for {key}.
-                </td>
-              </tr>
-            ))}
+            {Object.entries(categoryColors).map(([key, color]) => {
+              const count = treemapData.find((item) => item.name === key)?.value || 0;
+              return (
+                <tr key={key}>
+                  <td className="border px-4 py-2 text-center">
+                    <div
+                      className="w-4 h-4 rounded-full mx-auto"
+                      style={{ backgroundColor: color }}
+                    ></div>
+                  </td>
+                  <td className="border px-4 py-2">{key}</td>
+                  <td className="border px-4 py-2">{count}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
