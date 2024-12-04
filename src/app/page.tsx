@@ -52,6 +52,8 @@ import { processData } from '../components/ui/snakeyChart/processData';
 import { PieCard } from "@/components/ui/PieChart/card";
 import { BubbleCard } from "@/components/ui/BubbleChart/card";
 import  TreemapCard from "@/components/ui/TreemapChart/Card";
+import ContextStackedBarCard from "@/components/ui/StackedBarChart/card";
+
 
 export const metadata: Metadata = {
   title: 'Data Visualization',
@@ -64,6 +66,7 @@ export default function Home() {
   return (
     <>
       <h1>Data Visualization</h1>
+      <ContextStackedBarCard/>
       <TreemapCard />
       <PieCard />
       <BubbleCard />
