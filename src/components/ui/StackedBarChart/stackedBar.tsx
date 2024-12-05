@@ -52,7 +52,6 @@ const ContextStackedBarChart: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-2xl font-bold mb-4">Temporal and Spatial Context Distribution</h2>
       <ResponsiveContainer width="100%" height={400}>
         <BarChart data={chartData}>
           <XAxis dataKey="context" />

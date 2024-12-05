@@ -133,12 +133,38 @@ const processTypeData = (): ChartData[] => {
   }));
 };
 
+const processChordData = (messages) => {
+  const uniqueNodes = Array.from(
+    new Set(messages.flatMap((msg) => [msg.messageEncoder, msg.messageDecoder]))
+  );
+
+  const matrix = uniqueNodes.map(() =>
+    uniqueNodes.map(() => 0)
+  );
+
+  messages.forEach((msg) => {
+    const encoderIndex = uniqueNodes.indexOf(msg.messageEncoder);
+    const decoderIndex = uniqueNodes.indexOf(msg.messageDecoder);
+
+    if (encoderIndex !== -1 && decoderIndex !== -1) {
+      matrix[encoderIndex][decoderIndex]++;
+    }
+  });
+
+  return { matrix, uniqueNodes };
+};
+
+
+
+
+
 const processData = {
   semanticCategories: getUniqueValues('categories'),
   types: getUniqueValues('type'),
   categorizedBySemantic: processSemanticCategoryData(),
   categorizedByType: processTypeData(),
- messages: data.messages || [],
+  messages: data.messages || [],
+  processChordData: processChordData,
 
 };
 
