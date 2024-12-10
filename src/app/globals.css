@@ -6,6 +6,24 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+
+.chord-diagram-wrapper svg {
+  width: 100%; /* Adjust scaling */
+  height: 100%;
+  rotate: -70deg; /* Example rotation */
+  display: block;
+  overflow: visible;
+
+
+}
+
+
+
+
+
+
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

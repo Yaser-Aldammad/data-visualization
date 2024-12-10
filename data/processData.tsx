@@ -154,6 +154,34 @@ const processChordData = (messages) => {
   return { matrix, uniqueNodes };
 };
 
+// Add this function to processData.js
+const processEncoderDecoderData = (): { encoder: string; decoder: string; count: number }[] => {
+  const counts: Record<string, Record<string, number>> = {};
+
+  data.messages.forEach((message: Message) => {
+    if (!counts[message.messageEncoder]) {
+      counts[message.messageEncoder] = {};
+    }
+    counts[message.messageEncoder][message.messageDecoder] =
+      (counts[message.messageEncoder][message.messageDecoder] || 0) + 1;
+  });
+
+  const chartData = [];
+  for (const encoder in counts) {
+    for (const decoder in counts[encoder]) {
+      chartData.push({
+        encoder,
+        decoder,
+        count: counts[encoder][decoder],
+      });
+    }
+  }
+
+  return chartData;
+};
+
+
+
 
 
 
@@ -165,6 +193,7 @@ const processData = {
   categorizedByType: processTypeData(),
   messages: data.messages || [],
   processChordData: processChordData,
+  processEncoderDecoderData: processEncoderDecoderData,
 
 };
 

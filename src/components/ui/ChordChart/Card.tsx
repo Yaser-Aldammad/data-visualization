@@ -3,13 +3,12 @@
 import React from "react";
 import EncoderDecoderChord from "./ChordDiagram"; // Ensure the path is correct
 
+
+
+
 const ChordCard: React.FC = () => {
   return (
-    <div className="card flex flex-col p-6 shadow-lg rounded-lg bg-white max-w-5xl mx-auto">
-      <div className="card-header mb-4 text-center">
-        <h2 className="text-2xl font-bold">Referenced Document Distribution</h2>
-        <p className="text-sm text-gray-500">Explore the encoder-decoder relationships visually.</p>
-      </div>
+<div className="card flex flex-col p-8 shadow-xl rounded-xl bg-white max-w-5xl mx-auto border border-gray-200">
       <div className="card-content flex-1">
         <EncoderDecoderChord />
       </div>
