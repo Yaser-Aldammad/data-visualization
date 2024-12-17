@@ -6,7 +6,7 @@ import processData from "../../../../data/processData";
 const EncoderDecoderChord: React.FC = () => {
   const [matrix, setMatrix] = useState<number[][]>([]);
   const [nodes, setNodes] = useState<string[]>([]);
-  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [hoveredNode] = useState<string | null>(null);
   const [connections, setConnections] = useState<number[]>([]);
 
   useEffect(() => {
