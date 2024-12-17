@@ -4,8 +4,16 @@ import React, { useState, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import processData from "../../../../data/processData";
 
+// Define the type for chart data
+interface ChartEntry {
+  context: string;
+  spatialColocated: number;
+  spatialDistributed: number;
+}
+
 const ContextStackedBarChart: React.FC = () => {
-  const [chartData, setChartData] = useState([]);
+  // Explicitly define the type for chartData as ChartEntry[]
+  const [chartData, setChartData] = useState<ChartEntry[]>([]);
   const [totals, setTotals] = useState({
     spatialColocated: 0,
     spatialDistributed: 0,
@@ -14,7 +22,7 @@ const ContextStackedBarChart: React.FC = () => {
   });
 
   useEffect(() => {
-    const data = processData.messages.reduce((acc, msg) => {
+    const data = processData.messages.reduce<ChartEntry[]>((acc, msg) => {
       const existingEntry = acc.find((item) => item.context === msg.temporalContext);
       if (existingEntry) {
         existingEntry.spatialColocated += msg.spatialContext === "Colocated" ? 1 : 0;

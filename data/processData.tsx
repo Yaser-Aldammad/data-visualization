@@ -133,7 +133,7 @@ const processTypeData = (): ChartData[] => {
   }));
 };
 
-const processChordData = (messages) => {
+const processChordData = (messages: Message[]) => {
   const uniqueNodes = Array.from(
     new Set(messages.flatMap((msg) => [msg.messageEncoder, msg.messageDecoder]))
   );

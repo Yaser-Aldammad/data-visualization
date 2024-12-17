@@ -53,7 +53,6 @@ import { BubbleCard } from "@/components/ui/BubbleChart/card";
 import  TreemapCard from "@/components/ui/TreemapChart/Card";
 import ContextStackedBarCard from "@/components/ui/StackedBarChart/Card";
 import ChordCard from "@/components/ui/ChordChart/ChordDiagram";
-import EncoderDecoderHeatmap from "@/components/ui/heatMap/Heatmap";
 import EncoderDecoderBarChart from "@/components/ui/barChart/BarChart";
 
 
@@ -68,7 +67,6 @@ export default function Home() {
     <>
       <h1>Data Visualization</h1>
       <EncoderDecoderBarChart/>
-      <EncoderDecoderHeatmap/>
       < ChordCard/>
       <ContextStackedBarCard/>
       <TreemapCard />
